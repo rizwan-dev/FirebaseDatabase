@@ -2,6 +2,7 @@ package com.riztech.firebasedatabase.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.riztech.firebasedatabase.R;
@@ -82,7 +85,13 @@ public class AddEmployeeFragment extends Fragment {
 
         employee.setId(key);
 
-        mDatabaseReference.child(key).setValue(employee);
+        progress.setVisibility(View.VISIBLE);
+        mDatabaseReference.child(key).setValue(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progress.setVisibility(View.GONE);
+            }
+        });
 
 
     }
