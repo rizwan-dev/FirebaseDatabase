@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.riztech.firebasedatabase.R;
 import com.riztech.firebasedatabase.models.Employee;
 
@@ -24,6 +26,8 @@ public class AddEmployeeFragment extends Fragment {
     ProgressBar progress;
 
     Button btnAdd;
+
+    DatabaseReference mDatabaseReference;
 
     public AddEmployeeFragment() {
         // Required empty public constructor
@@ -42,6 +46,8 @@ public class AddEmployeeFragment extends Fragment {
         edtDesignation =  view.findViewById(R.id.edtDesignation);
         progress =  view.findViewById(R.id.progress);
         btnAdd = view.findViewById(R.id.btnAdd);
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("employees");
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +77,13 @@ public class AddEmployeeFragment extends Fragment {
         long salary = Long.parseLong(salString);
 
         Employee employee = new Employee(name, address, phoneNumber, salary, designation);
+
+        String key = mDatabaseReference.push().getKey();
+
+        employee.setId(key);
+
+        mDatabaseReference.child(key).setValue(employee);
+
 
     }
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.riztech.firebasedatabase.fragment.AddEmployeeFragment;
+import com.riztech.firebasedatabase.fragment.ViewAllEmployeeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                     changeFragment(new AddEmployeeFragment());
                     return true;
                 case R.id.navigation_view:
+                    changeFragment(new ViewAllEmployeeFragment());
                     return true;
                 case R.id.navigation_update:
                     return true;
