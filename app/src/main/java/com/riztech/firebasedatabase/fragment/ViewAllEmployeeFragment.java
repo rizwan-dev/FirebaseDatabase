@@ -56,10 +56,11 @@ public class ViewAllEmployeeFragment extends Fragment implements EmployeeClickLi
 
         employeeListAdapter = new EmployeeListAdapter(employees, this);
 
+        rvEmployees.setAdapter(employeeListAdapter);
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                progress.setVisibility(View.GONE);
                 Employee employee = dataSnapshot.getValue(Employee.class);
                 employees.add(employee);
                 employeeListAdapter.notifyDataSetChanged();
