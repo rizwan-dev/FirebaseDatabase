@@ -1,5 +1,6 @@
 package com.riztech.firebasedatabase.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.riztech.firebasedatabase.R;
+import com.riztech.firebasedatabase.UpdateEmployeeActivity;
 import com.riztech.firebasedatabase.adapter.EmployeeClickListener;
 import com.riztech.firebasedatabase.adapter.EmployeeListAdapter;
 import com.riztech.firebasedatabase.models.Employee;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ViewAllEmployeeFragment extends Fragment implements EmployeeClickListener{
+public class ViewAllEmployeeFragment extends Fragment implements EmployeeClickListener {
 
     RecyclerView rvEmployees;
     EmployeeListAdapter employeeListAdapter;
@@ -101,10 +103,24 @@ public class ViewAllEmployeeFragment extends Fragment implements EmployeeClickLi
     @Override
     public void onDeleteClick(int position) {
 
+        Employee employee = employees.get(position);
+        String id = employee.getId();
+        progress.setVisibility(View.VISIBLE);
+
+        mDatabaseReference.child(id).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                progress.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     @Override
     public void onItemClick(int position) {
-
+        Intent intent = new Intent(getActivity(), UpdateEmployeeActivity.class);
+        Employee employee = employeeListAdapter.getItemAtPosition(position);
+        intent.putExtra(UpdateEmployeeActivity.DATA, employee);
+        startActivity(intent);
     }
 }
