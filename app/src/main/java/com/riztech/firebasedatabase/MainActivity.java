@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.riztech.firebasedatabase.fragment.AddEmployeeFragment;
 import com.riztech.firebasedatabase.fragment.ViewAllEmployeeFragment;
 
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         changeFragment(new AddEmployeeFragment());
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Notification", "Refreshed token: " + refreshedToken);
     }
 
     public void changeFragment(Fragment fragment) {
